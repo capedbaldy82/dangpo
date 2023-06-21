@@ -1,5 +1,5 @@
 import Heading from '@/components/common/Heading';
-import ReviewCard from '@/components/main/reviewCard';
+import ReviewCard from '@/components/home/reviewCard';
 
 const ReviewList = () => {
   const reviews = [

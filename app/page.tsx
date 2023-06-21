@@ -1,5 +1,5 @@
-import Entry from '@/components/main/entry';
-import ReviewList from '@/components/main/reviewList';
+import Entry from '@/components/home/entry';
+import ReviewList from '@/components/home/reviewList';
 
 const Home = () => {
   return (
