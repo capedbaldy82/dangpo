@@ -8,9 +8,11 @@ type Props = {
 
 const ReviewCard = ({ name, content, postId }: Props) => {
   return (
-    <li className="shadow-md w-1/2 p-4 h-40">
-      <p className="mb-4 font-semibold text-xl">{name}님 후기</p>
-      <p>{content.slice(0, 30)}..</p>
+    <li className="shadow-md w-1/2 p-4 h-40 hover:scale-105">
+      <Link as="/review" href={`/review/${postId}`} className="flex flex-col w-full h-full">
+        <p className="mb-4 font-semibold text-xl">{name}님 후기</p>
+        <p>{content.slice(0, 30)}..</p>
+      </Link>
     </li>
   );
 };
