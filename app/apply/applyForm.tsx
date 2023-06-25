@@ -1,6 +1,9 @@
 'use client';
 import { useState, useEffect } from 'react';
 import { useForm, FieldErrors } from 'react-hook-form';
+import { useAddDoc } from '@/hooks/useAddDoc';
+import useUser from '@/hooks/useUser';
+import Spinner from '@/components/common/Spinner';
 
 type ItemForm = {
   id: number;
@@ -10,18 +13,31 @@ type ItemForm = {
 };
 
 const ApplyForm = () => {
+  // useForm을 통한 신청 관리
   const { register, handleSubmit, watch } = useForm<ItemForm>();
-  const [itemPreview, setItemPreview] = useState('');
-  const image = watch('image');
 
+  // 이미지 미리보기를 위한 상태 및 image value
+  const image = watch('image');
+  const [itemPreview, setItemPreview] = useState('');
+
+  // 신청하기 - uid 확인 및 addDoc 메서드
+  const { user } = useUser();
+  const { addDocument, loading } = useAddDoc('application', '/apply/done');
+
+  // 신청하기 - 유효성 검사 통과 시
   const onValid = (value: ItemForm) => {
-    console.log(value);
+    if (loading) return;
+    if (!user.uid) return;
+
+    addDocument({ uid: user.uid, title: value.title, content: value.content });
   };
 
+  // 신청하기 - 유효성 검사 실패 시
   const onInvalid = (error: FieldErrors) => {
     console.log(error);
   };
 
+  // 이미지 미리보기 설정
   useEffect(() => {
     if (image && image.length > 0) {
       const file = image[0];
@@ -76,7 +92,9 @@ const ApplyForm = () => {
           className="p-2 border border-gray-500 rounded-md h-40 resize-none"
           {...register('content')}
         />
-        <button className="p-4 bg-black text-white rounded-md text-lg">신청 하기</button>
+        <button className="p-4 bg-black text-white rounded-md text-lg">
+          {loading ? <Spinner /> : '신청 하기'}
+        </button>
       </form>
       <p className="text-center text-red-500">error</p>
     </section>
