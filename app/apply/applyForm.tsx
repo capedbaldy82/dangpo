@@ -45,7 +45,7 @@ const ApplyForm = () => {
       // @ts-ignore
       const blob = new Blob(file);
 
-      setItemPreview(URL.createObjectURL(file));
+      setItemPreview(URL.createObjectURL(blob));
     }
   }, [image]);
 
