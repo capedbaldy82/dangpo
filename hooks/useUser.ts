@@ -3,12 +3,14 @@
 import { appAuth } from '@/firebase/config';
 import { UserState } from '@/store';
 import { onAuthStateChanged } from 'firebase/auth';
+import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useRecoilState } from 'recoil';
 
 const useUser = () => {
   const [isPending, setIsPending] = useState(true);
   const [userState, setUserState] = useRecoilState(UserState);
+  const router = useRouter();
 
   useEffect(() => {
     setIsPending(true);
@@ -22,6 +24,8 @@ const useUser = () => {
             isAuthReady: true,
           });
         }
+      } else {
+        router.push('/login');
       }
 
       setIsPending(false);
