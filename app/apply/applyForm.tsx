@@ -42,6 +42,9 @@ const ApplyForm = () => {
     if (image && image.length > 0) {
       const file = image[0];
 
+      // @ts-ignore
+      const blob = new Blob(file);
+
       setItemPreview(URL.createObjectURL(file));
     }
   }, [image]);
