@@ -4,13 +4,21 @@ import { useState } from 'react';
 import { appAuth } from '@/firebase/config';
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import { useRouter } from 'next/navigation';
+import { useAddDoc } from '@/hooks/useAddDoc';
 
 const useSignup = () => {
   const [error, setError] = useState(null);
   const [isPending, setIsPending] = useState(false);
   const router = useRouter();
+  const { addDocument, loading } = useAddDoc('user');
 
-  const signup = (email: string, password: string, name: string) => {
+  const signup = (
+    email: string,
+    password: string,
+    name: string,
+    phone: string,
+    address: string
+  ) => {
     setError(null);
     setIsPending(true);
 
@@ -31,6 +39,7 @@ const useSignup = () => {
 
         updateProfile(appAuth.currentUser, { displayName: name })
           .then(() => {
+            addDocument({ email, name, uid: user?.uid, phone, address });
             setError(null);
             setIsPending(false);
             router.push('/');
