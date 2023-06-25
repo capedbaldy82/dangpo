@@ -20,24 +20,22 @@ const useLogin = () => {
         const user = userCredential.user;
         // dispatch({ type: 'login', payload: user });
 
-        if (user) {
-          if (user.displayName && user.email && user.uid) {
-            setUserState({
-              name: user.displayName,
-              email: user.email,
-              uid: user.uid,
-              isAuthReady: true,
-            });
-          }
+        if (!user) {
+          throw new Error('로그인에 실패했습니다.');
+        }
+
+        if (user.displayName && user.email && user.uid) {
+          setUserState({
+            name: user.displayName,
+            email: user.email,
+            uid: user.uid,
+            isAuthReady: true,
+          });
         }
 
         setError(null);
         setIsPending(false);
         router.replace('/');
-
-        if (!user) {
-          throw new Error('로그인에 실패했습니다.');
-        }
       })
       .catch((err) => {
         setError(err.message);
