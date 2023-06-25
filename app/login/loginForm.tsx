@@ -14,7 +14,8 @@ const LoginForm = () => {
   const { error, isPending, login } = useLogin();
 
   const onValid = (value: LoginFormType) => {
-    console.log(value);
+    if (isPending) return;
+
     login(value.email, value.password);
   };
 
