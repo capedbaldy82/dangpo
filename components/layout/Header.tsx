@@ -5,10 +5,10 @@ const Header = () => {
   return (
     <header className="flex justify-between items-center px-8 py-4 bg-black text-white">
       <MenuButton />
-      <Link href="/" as="/" className="text-3xl">
+      <Link href="/" className="text-3xl">
         Good Bye Box
       </Link>
-      <Link href="/mypage" as="/mypage">
+      <Link href="/mypage">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
