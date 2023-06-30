@@ -1,4 +1,7 @@
 import { atom } from 'recoil';
+import { recoilPersist } from 'recoil-persist';
+
+const { persistAtom } = recoilPersist();
 
 type UserStateType = {
   name: string | null;
@@ -7,14 +10,19 @@ type UserStateType = {
   isAuthReady: boolean;
 };
 
-const UserState = atom<UserStateType>({
+const UserState = atom({
   key: 'UserState',
   default: {
+    id: '',
     name: '',
     email: '',
+    address: '',
+    phone: '',
     uid: '',
+    application: [],
     isAuthReady: false,
   },
+  effects_UNSTABLE: [persistAtom],
 });
 
 export { UserState };
