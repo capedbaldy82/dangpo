@@ -4,25 +4,29 @@ import { signInWithEmailAndPassword } from 'firebase/auth';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useRecoilState } from 'recoil';
+import { setCookie } from 'cookies-next';
 
 const useLogin = () => {
   const [error, setError] = useState(null);
-  const [isPending, setIsPending] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [userState, setUserState] = useRecoilState(UserState);
   const router = useRouter();
 
   const login = (email: string, password: string) => {
     setError(null);
-    setIsPending(true);
+    setLoading(true);
 
     signInWithEmailAndPassword(appAuth, email, password)
-      .then((userCredential) => {
+      .then(async (userCredential) => {
         const user = userCredential.user;
-        // dispatch({ type: 'login', payload: user });
 
         if (!user) {
           throw new Error('로그인에 실패했습니다.');
         }
+
+        const accessToken = await user.getIdToken();
+
+        setCookie('accessToken', accessToken);
 
         if (user.displayName && user.email && user.uid) {
           setUserState({
@@ -34,16 +38,16 @@ const useLogin = () => {
         }
 
         setError(null);
-        setIsPending(false);
+        setLoading(false);
         router.replace('/');
       })
       .catch((err) => {
         setError(err.message);
-        setIsPending(false);
+        setLoading(false);
       });
   };
 
-  return { error, isPending, login };
+  return { error, loading, login };
 };
 
 export default useLogin;
