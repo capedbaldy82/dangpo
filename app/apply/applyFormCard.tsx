@@ -1,5 +1,6 @@
+'use client';
+
 import { useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
 
 type Props = {
   id: number;
@@ -8,7 +9,6 @@ type Props = {
   image: any;
   onChangeById: (id: number, title: string, content: string, image: any) => void;
   removeApplyFormCard: (id: number) => void;
-  // register: UseFormRegisterReturn;
 };
 
 const ApplyFormCard = ({ id, title, content, image, onChangeById, removeApplyFormCard }: Props) => {
@@ -21,35 +21,13 @@ const ApplyFormCard = ({ id, title, content, image, onChangeById, removeApplyFor
       const file = imageState[0];
 
       setItemPreview(URL.createObjectURL(file));
+      onChangeById(id, title, content, imageState);
     }
   }, [imageState]);
 
-  const getFileUploadUrl = async () => {
-    const response = await fetch(
-      `https://api.cloudflare.com/client/v4/accounts/${process.env.NEXT_PUBLIC_CF_ID}/images/v2/direct_upload`,
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${process.env.NEXT_PUBLIC_CF_TOKEN}`,
-        },
-      }
-    );
-
-    const result = await response.json();
-
-    console.log(result);
-  };
-
-  useEffect(() => {
-    console.log(imageState);
-  }, [imageState]);
-
   return (
-    <div className="border border-black flex flex-col space-y-4  p-4 rounded-md relative">
-      <div
-        onClick={() => removeApplyFormCard(id)}
-        className="absolute border border-red-500 top-0 right-0">
+    <article className="relative border-2 border-black flex flex-col p-4 pt-6 rounded-md space-y-4">
+      <div onClick={() => removeApplyFormCard(id)} className="flex absolute top-2 right-3">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -79,7 +57,12 @@ const ApplyFormCard = ({ id, title, content, image, onChangeById, removeApplyFor
               />
             </svg>
           )}
-          <input type="file" accept="image/*" onChange={(e) => setImageState(e.target.files)} />
+          <input
+            type="file"
+            accept="image/*"
+            className="w-1 h-1 hidden"
+            onChange={(e) => setImageState(e.target.files)}
+          />
         </label>
       </div>
       <input
@@ -96,9 +79,7 @@ const ApplyFormCard = ({ id, title, content, image, onChangeById, removeApplyFor
         className="border border-gray-500 rounded-md p-4"
         onChange={(e) => onChangeById(id, title, e.target.value, image)}
       />
-      <button onClick={getFileUploadUrl}>업로드 URL 받기</button>
-      <button>업로드</button>
-    </div>
+    </article>
   );
 };
 

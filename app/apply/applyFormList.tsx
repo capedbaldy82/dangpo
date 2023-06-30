@@ -1,29 +1,40 @@
 'use client';
 
-import ApplyFormCard from '@/app/apply/applyFormCard';
 import { useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { useApply } from '@/hooks/useApply';
+import { ItemType } from '@/types';
+import ApplyFormCard from '@/app/apply/applyFormCard';
+import Spinner from '@/components/common/Spinner';
+import useUser from '@/hooks/useUser';
+import { Timestamp } from 'firebase/firestore';
+import LoadingCheck from '@/components/common/LoadingCheck';
 
-type ApplyFormListType = {};
-
-type ItemType = {
-  id: number;
-  title: string;
-  content: string;
-  image: any;
+type UserDoc = {
+  address: string;
+  application: string[];
+  createdTime: Timestamp;
+  docId: string;
+  email: string;
+  id: string;
+  name: string;
+  phone: string;
+  uid: string;
 };
 
 const ApplyFormList = () => {
-  const { register, handleSubmit } = useForm();
+  const { user, loading: userLoading } = useUser();
+  const [errorMessage, setErrorMessage] = useState('');
   const [items, setItems] = useState<ItemType[]>([
     {
       id: 1,
       title: '',
       content: '',
-      image: '',
+      image: null,
     },
   ]);
+  const { apply, loading: applyLoading } = useApply();
 
+  // onChange for ApplyFormCard
   const onChangeById = (id: number, title: string, content: string, image: any) => {
     setItems((prev: ItemType[]) => {
       const temp = prev.map((item: ItemType) => {
@@ -37,6 +48,7 @@ const ApplyFormList = () => {
     });
   };
 
+  // ApplyFormCard 추가
   const addApplyFormCard = () => {
     setItems((prev: ItemType[]) => {
       const temp = [
@@ -45,7 +57,7 @@ const ApplyFormList = () => {
           id: prev[prev.length - 1].id + 1,
           title: '',
           content: '',
-          image: '',
+          image: null,
         },
       ];
 
@@ -53,6 +65,7 @@ const ApplyFormList = () => {
     });
   };
 
+  // ApplyFormCard 제거
   const removeApplyFormCard = (id: number) => {
     if (items.length <= 1) return;
     setItems((prev: ItemType[]) => {
@@ -62,28 +75,70 @@ const ApplyFormList = () => {
     });
   };
 
+  // 유효성 검사
+  const onValid = (items: ItemType[]) => {
+    const result = items.every((item) => item.title && item.image);
+
+    if (!result) {
+      setErrorMessage('상품 사진과 상품명은 필수입니다');
+    } else {
+      setErrorMessage('');
+    }
+
+    return result;
+  };
+
+  // 신청하기
+  const ApplyAllCards = () => {
+    if (!onValid(items)) return;
+    if (applyLoading) return;
+
+    if (user.uid && user.email) {
+      apply(items, user.uid, user.email);
+    } else {
+      alert('로그인 상태에 문제가 발생했습니다.\n재로그인 해주시기바랍니다.');
+    }
+  };
+
   return (
-    <div>
-      {items.map((item) => (
-        <ApplyFormCard
-          key={item.id}
-          id={item.id}
-          title={item.title}
-          image={item.image}
-          content={item.content}
-          onChangeById={onChangeById}
-          removeApplyFormCard={removeApplyFormCard}
-        />
-      ))}
-      <div>
-        <button onClick={addApplyFormCard} className="border border-black p-4 rounded-md">
-          추가
+    <LoadingCheck loading={userLoading} validation={user.isAuthReady}>
+      <section className="flex flex-col space-y-4">
+        {items.map((item) => (
+          <ApplyFormCard
+            key={item.id}
+            id={item.id}
+            title={item.title}
+            image={item.image}
+            content={item.content}
+            onChangeById={onChangeById}
+            removeApplyFormCard={removeApplyFormCard}
+          />
+        ))}
+        <button
+          onClick={addApplyFormCard}
+          className="flex justify-center border-2 border-gray-500 bg-slate-200 px-4 py-8 rounded-md">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={1.5}
+            stroke="currentColor"
+            className="w-6 h-6 text-gray-500">
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
+            />
+          </svg>
         </button>
-        <button onClick={() => console.log(items)} className="border border-black p-4 rounded-md">
-          신청
+        <button
+          onClick={() => ApplyAllCards()}
+          className="bg-black text-white p-4 rounded-md text-lg">
+          {applyLoading ? <Spinner /> : '신청하기'}
         </button>
-      </div>
-    </div>
+        <p className="text-center text-red-500">{errorMessage}</p>
+      </section>
+    </LoadingCheck>
   );
 };
 
