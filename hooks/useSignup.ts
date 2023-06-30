@@ -22,9 +22,6 @@ const useSignup = () => {
     setError(null);
     setIsPending(true);
 
-    console.log(email, password, name);
-    console.log('start signup');
-
     createUserWithEmailAndPassword(appAuth, email, password)
       .then((userCredential) => {
         const user = userCredential.user;
@@ -39,7 +36,15 @@ const useSignup = () => {
 
         updateProfile(appAuth.currentUser, { displayName: name })
           .then(() => {
-            addDocument({ email, name, uid: user?.uid, phone, address });
+            addDocument({
+              email,
+              name,
+              uid: user?.uid,
+              phone,
+              address,
+              application: [],
+              applicationCout: 0,
+            });
             setError(null);
             setIsPending(false);
             router.push('/');
