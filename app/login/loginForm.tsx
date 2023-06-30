@@ -3,18 +3,14 @@
 import Spinner from '@/components/common/Spinner';
 import useLogin from '@/hooks/useLogin';
 import { FieldErrors, useForm } from 'react-hook-form';
-
-type LoginFormType = {
-  email: string;
-  password: string;
-};
+import { LoginFormType } from '@/types';
 
 const LoginForm = () => {
   const { register, handleSubmit } = useForm<LoginFormType>();
-  const { error, isPending, login } = useLogin();
+  const { error, loading, login } = useLogin();
 
   const onValid = (value: LoginFormType) => {
-    if (isPending) return;
+    if (loading) return;
 
     login(value.email, value.password);
   };
@@ -42,7 +38,7 @@ const LoginForm = () => {
       <button
         type="submit"
         className="flex justify-center bg-black text-white text-lg px-2 py-4 rounded-md">
-        {isPending ? <Spinner /> : '로그인'}
+        {loading ? <Spinner /> : '로그인'}
       </button>
       <p className="text-center text-red-500">{error && '이메일 혹은 비밀번호를 확인해주세요'}</p>
     </form>
