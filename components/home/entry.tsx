@@ -3,7 +3,7 @@ import Link from 'next/link';
 const Entry = () => {
   return (
     <section className="relative -mx-8 py-40 flex flex-col items-center">
-      <div className="flex flex-col items-center text-5xl space-y-4 font-dongle">
+      <div className="flex flex-col items-center text-3xl space-y-4">
         <p>팔고싶은 물건이 있는데 시간이 없으신가요</p>
         <p>Good Bye Box에 넣어보세요</p>
       </div>

@@ -1,7 +1,6 @@
 import '@/app/globals.css';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
-import { inter, dongle } from '@/app/fonts';
 
 export const metadata = {
   title: 'GoodByeBox',
@@ -15,7 +14,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <header>
           <h1 className="hidden">DangPo</h1>
         </header>
-        <main className={`${inter.className} ${dongle.variable} m-auto max-w-2xl relative`}>
+        <main className={`m-auto max-w-2xl relative`}>
           <Header />
           <div className="px-8">{children}</div>
           <Footer />
