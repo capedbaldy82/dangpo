@@ -26,22 +26,29 @@ const useCollection = <T>(
   const [documents, setDocuments] = useState([]);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
+  const transactionRef = collection(appFireStore, transaction);
 
   useEffect(() => {
-    let q: Query;
+    let firestoreQuery: Query = query(transactionRef, orderBy('createdTime', 'desc'));
 
     if (myQuery) {
-      q = query(collection(appFireStore, transaction), where(...myQuery));
-    } else {
-      q = collection(appFireStore, transaction);
+      firestoreQuery = query(transactionRef, where(...myQuery));
     }
 
     const unsubscribe = onSnapshot(
-      myQuery ? q : collection(appFireStore, transaction),
+      firestoreQuery,
       (snapshot: any) => {
         let result: any = [];
         snapshot.docs.forEach((doc: any) => {
-          result.push({ ...doc.data(), id: doc.id });
+          if (doc.data().createdTime) {
+            result.push({
+              ...doc.data(),
+              createdTime: doc.data().createdTime.toDate(),
+              id: doc.id,
+            });
+          } else {
+            result.push({ ...doc.data(), id: doc.id });
+          }
         });
         setDocuments(result);
         setLoading(false);
