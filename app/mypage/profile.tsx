@@ -1,3 +1,4 @@
+import SubHeading from '@/app/mypage/subHeading';
 import useLogout from '@/hooks/useLogout';
 
 type Props = {
@@ -9,7 +10,7 @@ const Profile = ({ name }: Props) => {
 
   return (
     <section className="flex justify-between flex-col">
-      <h3 className="text-2xl font-bold flex items-center">
+      <SubHeading>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -24,7 +25,7 @@ const Profile = ({ name }: Props) => {
           />
         </svg>
         프로필 정보
-      </h3>
+      </SubHeading>
       <div className="flex justify-between items-center">
         <p className="text-2xl">{name}님</p>
         <button onClick={() => logout()} className="border border-black p-2 rounded-md">
