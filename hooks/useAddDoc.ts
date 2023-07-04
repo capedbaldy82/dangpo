@@ -13,7 +13,7 @@ const useAddDoc = (transaction: any, route?: string | null) => {
     setLoading(true);
     const createdTime = timestamp.fromDate(new Date());
     const docRef = await addDoc(colRef, { ...data, createdTime })
-      .then((user) => {
+      .then(() => {
         setLoading(false);
         if (route) router.push(route);
       })
