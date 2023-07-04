@@ -1,13 +1,12 @@
 import Spinner from '@/components/common/Spinner';
 
-type useLoadingProps = {
+type Props = {
   loading: boolean;
-  validation?: boolean;
   children: React.ReactNode;
 };
 
-const LoadingCheck = ({ loading, children, validation = true }: useLoadingProps) => {
-  return <div>{loading ? <Spinner /> : validation ? children : null}</div>;
+const LoadingCheckNew = ({ loading, children }: Props) => {
+  return <>{loading ? <Spinner /> : children}</>;
 };
 
-export default LoadingCheck;
+export default LoadingCheckNew;
