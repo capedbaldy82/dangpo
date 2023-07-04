@@ -3,7 +3,7 @@ import ReviewList from '@/components/home/reviewList';
 
 const Home = () => {
   return (
-    <main className="">
+    <main>
       <h2 className="hidden">Home</h2>
       <Entry />
       <ReviewList />
