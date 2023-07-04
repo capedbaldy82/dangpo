@@ -24,27 +24,27 @@ const useApply = () => {
       return;
     }
 
-    try {
-      setLoading(true);
+    setLoading(true);
 
-      const result = await Promise.all(
-        items.map((item) =>
-          ApplyEachCard(item, uid, email).catch((error) => {
-            setError(error.message);
-          })
-        )
-      );
+    const result = await Promise.all(
+      items.map((item) =>
+        ApplyEachCard(item, uid, email).catch((error) => {
+          setError(error.message);
+        })
+      )
+    );
 
-      await updateDoc(doc(appFireStore, 'user', user.id), {
-        applicationCount: user?.applicationCount + items.length,
+    await updateDoc(doc(appFireStore, 'user', user.id), {
+      applicationCount: user?.applicationCount + items.length,
+    })
+      .then(() => {
+        setLoading(false);
+        router.replace('/apply/done');
+      })
+      .catch((error) => {
+        setError(error);
+        setLoading(false);
       });
-
-      setLoading(false);
-      router.replace('/apply/done');
-    } catch (error) {
-      setLoading(false);
-      setError(error.message);
-    }
   };
 
   // Cloudflare 사진 업로드 URL 받기
@@ -78,6 +78,7 @@ const useApply = () => {
       image: imageId,
       uid,
       email,
+      status: 'standby',
       createdTime,
     })
       .then((result) => {
