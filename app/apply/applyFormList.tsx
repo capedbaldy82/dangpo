@@ -7,7 +7,7 @@ import ApplyFormCard from '@/app/apply/applyFormCard';
 import Spinner from '@/components/common/Spinner';
 import useUser from '@/hooks/useUser';
 import { Timestamp } from 'firebase/firestore';
-import LoadingCheck from '@/components/common/LoadingCheck';
+import LoadingAndValidationCheck from '@/components/common/LoadingAndValidationCheck';
 
 type UserDoc = {
   address: string;
@@ -101,7 +101,7 @@ const ApplyFormList = () => {
   };
 
   return (
-    <LoadingCheck loading={userLoading} validation={user.isAuthReady}>
+    <LoadingAndValidationCheck loading={userLoading} validation={user.isAuthReady}>
       <section className="flex flex-col space-y-4">
         {items.map((item) => (
           <ApplyFormCard
@@ -138,7 +138,7 @@ const ApplyFormList = () => {
         </button>
         <p className="text-center text-red-500">{errorMessage}</p>
       </section>
-    </LoadingCheck>
+    </LoadingAndValidationCheck>
   );
 };
 
