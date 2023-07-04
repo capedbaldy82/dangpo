@@ -1,9 +1,9 @@
 'use client';
 
-import Application from '@/app/mypage/application';
+import ApplicationList from '@/app/mypage/applicationList';
 import Profile from '@/app/mypage/profile';
 import Heading from '@/components/common/Heading';
-import LoadingCheck from '@/components/common/LoadingCheck';
+import LoadingAndValidationCheck from '@/components/common/LoadingAndValidationCheck';
 import useUser from '@/hooks/useUser';
 
 const Mypage = () => {
@@ -12,12 +12,12 @@ const Mypage = () => {
   return (
     <main>
       <Heading text="My Page" />
-      <LoadingCheck loading={loading} validation={user.isAuthReady}>
+      <LoadingAndValidationCheck loading={loading} validation={user.isAuthReady}>
         <div className="space-y-20">
           <Profile name={user.name ?? ''} />
-          <Application uid={user.uid ?? ''} />
+          <ApplicationList uid={user.uid ?? ''} />
         </div>
-      </LoadingCheck>
+      </LoadingAndValidationCheck>
     </main>
   );
 };
