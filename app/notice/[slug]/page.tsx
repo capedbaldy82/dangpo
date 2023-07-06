@@ -1,4 +1,5 @@
 import { appFireStore } from '@/firebase/config';
+import { convertDate } from '@/libs/convertDate';
 import { collection, doc, getDoc, getDocs, query } from 'firebase/firestore';
 import { notFound } from 'next/navigation';
 
@@ -6,14 +7,6 @@ type Props = {
   params: {
     slug: string;
   };
-};
-
-const convertDate = (data: Date) => {
-  const year = data.getFullYear();
-  const month = data.getMonth() + 1;
-  const date = data.getDate();
-
-  return `${year}.${month}.${date}`;
 };
 
 const getDocument = async (id: string) => {
