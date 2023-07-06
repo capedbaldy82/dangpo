@@ -52,6 +52,8 @@ const ApplicationInfo = ({ uid }: Props) => {
               title={application.title}
               content={application.content}
               status={application.status}
+              reviewed={application.reviewed}
+              reviewDocId={application.reviewDocId}
             />
           ))}
         </ul>

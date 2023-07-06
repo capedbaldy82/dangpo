@@ -3,6 +3,7 @@
 import SpinnerSmall from '@/components/common/Spinner_small';
 import { useChangeStatus } from '@/hooks/useChangeStatus';
 import Image from 'next/image';
+import Link from 'next/link';
 import { useState } from 'react';
 
 type Props = {
@@ -11,9 +12,19 @@ type Props = {
   title: string;
   content: string;
   status: string;
+  reviewed: boolean;
+  reviewDocId?: string;
 };
 
-const ApplicationInfoCard = ({ id, image, title, content, status }: Props) => {
+const ApplicationInfoCard = ({
+  id,
+  image,
+  title,
+  content,
+  status,
+  reviewed,
+  reviewDocId,
+}: Props) => {
   const [statusValue, setStatusValue] = useState(status);
   const { loading, changeStatus } = useChangeStatus();
 
@@ -42,28 +53,44 @@ const ApplicationInfoCard = ({ id, image, title, content, status }: Props) => {
           <p className="text-lg font-bold w-1/3 sm:w-1/5">상세 설명</p>
           <p>{content}</p>
         </div>
-        <div className="flex justify-between">
-          <div className="flex w-1/2">
-            <p className="text-lg font-bold w-[66.666666%] sm:w-2/5">상품 상태</p>
-            <select
-              name="status"
-              id="status"
-              className="border border-black rounded-md focus:outline-black"
-              value={statusValue}
-              onChange={(e) => setStatusValue(e.target.value)}>
-              <option value="standby">대기</option>
-              <option value="ongoing">진행</option>
-              <option value="done">완료</option>
-            </select>
+        {reviewed ? (
+          <div className="flex justify-between">
+            <div className="flex w-1/2">
+              <p className="text-lg font-bold w-[66.666666%] sm:w-2/5">상품 상태</p>
+              <p>리뷰 완료</p>
+            </div>
+            <div>
+              <Link
+                href={`/review/${reviewDocId}`}
+                className="w-16 px-4 py-1 rounded-sm h-full bg-black text-white">
+                링크
+              </Link>
+            </div>
           </div>
-          <div className="">
-            <button
-              onClick={saveStatus}
-              className="w-16 px-4 rounded-sm h-full bg-black text-white">
-              {loading ? <SpinnerSmall /> : '저장'}
-            </button>
+        ) : (
+          <div className="flex justify-between">
+            <div className="flex w-1/2">
+              <p className="text-lg font-bold w-[66.666666%] sm:w-2/5">상품 상태</p>
+              <select
+                name="status"
+                id="status"
+                className="border border-black rounded-md focus:outline-black"
+                value={statusValue}
+                onChange={(e) => setStatusValue(e.target.value)}>
+                <option value="standby">대기</option>
+                <option value="ongoing">진행</option>
+                <option value="done">완료</option>
+              </select>
+            </div>
+            <div>
+              <button
+                onClick={saveStatus}
+                className="w-16 px-4 rounded-sm h-full bg-black text-white">
+                {loading ? <SpinnerSmall /> : '저장'}
+              </button>
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </li>
   );
