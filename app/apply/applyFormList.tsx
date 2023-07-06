@@ -2,29 +2,16 @@
 
 import { useState } from 'react';
 import { useApply } from '@/hooks/useApply';
-import { ItemType } from '@/types';
+import { ApplicationFormType } from '@/types';
 import ApplyFormCard from '@/app/apply/applyFormCard';
 import Spinner from '@/components/common/Spinner';
 import useUser from '@/hooks/useUser';
-import { Timestamp } from 'firebase/firestore';
 import LoadingAndValidationCheck from '@/components/common/LoadingAndValidationCheck';
-
-type UserDoc = {
-  address: string;
-  application: string[];
-  createdTime: Timestamp;
-  docId: string;
-  email: string;
-  id: string;
-  name: string;
-  phone: string;
-  uid: string;
-};
 
 const ApplyFormList = () => {
   const { user, loading: userLoading } = useUser();
   const [errorMessage, setErrorMessage] = useState('');
-  const [items, setItems] = useState<ItemType[]>([
+  const [items, setItems] = useState<ApplicationFormType[]>([
     {
       id: 1,
       title: '',
@@ -36,8 +23,8 @@ const ApplyFormList = () => {
 
   // onChange for ApplyFormCard
   const onChangeById = (id: number, title: string, content: string, image: any) => {
-    setItems((prev: ItemType[]) => {
-      const temp = prev.map((item: ItemType) => {
+    setItems((prev: ApplicationFormType[]) => {
+      const temp = prev.map((item: ApplicationFormType) => {
         if (item.id === id) {
           return { ...item, title, content, image };
         } else {
@@ -50,7 +37,7 @@ const ApplyFormList = () => {
 
   // ApplyFormCard 추가
   const addApplyFormCard = () => {
-    setItems((prev: ItemType[]) => {
+    setItems((prev: ApplicationFormType[]) => {
       const temp = [
         ...prev,
         {
@@ -68,7 +55,7 @@ const ApplyFormList = () => {
   // ApplyFormCard 제거
   const removeApplyFormCard = (id: number) => {
     if (items.length <= 1) return;
-    setItems((prev: ItemType[]) => {
+    setItems((prev: ApplicationFormType[]) => {
       const temp = prev.filter((item) => item.id !== id);
 
       return temp;
@@ -76,7 +63,7 @@ const ApplyFormList = () => {
   };
 
   // 유효성 검사
-  const onValid = (items: ItemType[]) => {
+  const onValid = (items: ApplicationFormType[]) => {
     const result = items.every((item) => item.title && item.image);
 
     if (!result) {
@@ -93,8 +80,8 @@ const ApplyFormList = () => {
     if (!onValid(items)) return;
     if (applyLoading) return;
 
-    if (user.uid && user.email) {
-      apply(items, user.uid, user.email);
+    if (user.userDocId && user.email) {
+      apply(items, user.userDocId, user.email);
     } else {
       alert('로그인 상태에 문제가 발생했습니다.\n재로그인 해주시기바랍니다.');
     }
