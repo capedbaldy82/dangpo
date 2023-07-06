@@ -6,8 +6,8 @@ import { collection, onSnapshot, query, where } from 'firebase/firestore';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
-type UserDocType = {
-  id: string | null;
+type UserStateType = {
+  userDocId: string | null;
   name: string | null;
   email: string | null;
   address: string | null;
@@ -22,8 +22,8 @@ const useUser = () => {
   const [loading, setLoading] = useState(true);
   const [authStateLoading, setAuthStateLoading] = useState(true);
   const [error, setError] = useState('');
-  const [user, setUser] = useState<UserDocType>({
-    id: '',
+  const [user, setUser] = useState<UserStateType>({
+    userDocId: '',
     name: '',
     email: '',
     address: '',
@@ -44,7 +44,7 @@ const useUser = () => {
         return;
       }
 
-      setUser((prev: UserDocType) => {
+      setUser((prev: UserStateType) => {
         return {
           ...prev,
           name: user.displayName,
@@ -69,11 +69,11 @@ const useUser = () => {
       myQuery,
       (snapshot: any) => {
         snapshot.docs.forEach((doc: any) => {
-          setUser((prev: UserDocType) => {
+          setUser((prev: UserStateType) => {
             return {
               ...prev,
               ...doc.data(),
-              id: doc.id,
+              userDocId: doc.id,
             };
           });
         });
