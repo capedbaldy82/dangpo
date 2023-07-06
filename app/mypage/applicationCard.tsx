@@ -1,10 +1,14 @@
 import Image from 'next/image';
+import Link from 'next/link';
 
 type Props = {
   image: string;
   title: string;
   content: string;
   status: 'standby' | 'ongoing' | 'done';
+  applicationDocId?: string;
+  reviewed?: boolean;
+  reviewDocId?: string;
 };
 
 const APPLICATION_STATUS = {
@@ -13,7 +17,15 @@ const APPLICATION_STATUS = {
   done: '처리가 완료된 상품입니다.',
 };
 
-const ApplicationCard = ({ image, title, content, status }: Props) => {
+const ApplicationCard = ({
+  applicationDocId,
+  image,
+  title,
+  content,
+  status,
+  reviewed,
+  reviewDocId,
+}: Props) => {
   return (
     <li className="p-4 border border-black rounded-md overflow-hidden">
       <div className="w-full h-80 overflow-hidden relative object-cover mb-4">
@@ -38,6 +50,19 @@ const ApplicationCard = ({ image, title, content, status }: Props) => {
           <p>{APPLICATION_STATUS[status]}</p>
         </div>
       </div>
+      {applicationDocId ? (
+        reviewed ? (
+          <div className="flex mt-4">
+            <Link href={`/review/${reviewDocId}`} className="bg-black text-white p-2 rounded-md">
+              리뷰 확인하기
+            </Link>
+          </div>
+        ) : (
+          <div>
+            <Link href={`/review/new/${applicationDocId}`}>리뷰 작성하기</Link>
+          </div>
+        )
+      ) : null}
     </li>
   );
 };
