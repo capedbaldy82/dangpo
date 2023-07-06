@@ -14,11 +14,6 @@ import { appFireStore } from '../firebase/config';
 
 type myQueryType = [string | FieldPath, WhereFilterOp, unknown];
 
-type Props = {
-  transaction: string;
-  myQuery?: myQueryType;
-};
-
 const useCollection = <T>(
   transaction: string,
   myQuery?: myQueryType

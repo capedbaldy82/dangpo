@@ -1,5 +1,5 @@
 import { appFireStore, timestamp } from '@/firebase/config';
-import { ItemType } from '@/types';
+import { ApplicationFormType } from '@/types';
 import { addDoc, arrayUnion, collection, doc, updateDoc } from 'firebase/firestore';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
@@ -11,10 +11,13 @@ const useApply = () => {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
-  // console.log(user);
+  const apply = async (items: ApplicationFormType[], userDocId: string, email: string) => {
+    if (!user.userDocId) {
+      setError('로그인 상태를 확인해주시기 바랍니다.');
+      return;
+    }
 
-  const apply = async (items: ItemType[], uid: string, email: string) => {
-    if (!user.id) {
+    if (!user.name) {
       setError('로그인 상태를 확인해주시기 바랍니다.');
       return;
     }
@@ -28,13 +31,13 @@ const useApply = () => {
 
     const result = await Promise.all(
       items.map((item) =>
-        ApplyEachCard(item, uid, email).catch((error) => {
+        ApplyEachCard(item, userDocId, email, user.name || 'anonymous').catch((error) => {
           setError(error.message);
         })
       )
     );
 
-    await updateDoc(doc(appFireStore, 'user', user.id), {
+    await updateDoc(doc(appFireStore, 'user', user.userDocId), {
       applicationCount: user?.applicationCount + items.length,
     })
       .then(() => {
@@ -58,7 +61,12 @@ const useApply = () => {
   };
 
   // ApplyFormCard 신청
-  const ApplyEachCard = async (item: ItemType, uid: string, email: string) => {
+  const ApplyEachCard = async (
+    item: ApplicationFormType,
+    userDocId: string,
+    email: string,
+    name: string
+  ) => {
     const { uploadURL } = await getFileUploadUrl();
 
     // Clouldflare 사진 업로드
@@ -76,14 +84,17 @@ const useApply = () => {
       title: item.title,
       content: item.content,
       image: imageId,
-      uid,
+      name,
+      userDocId,
       email,
       status: 'standby',
       createdTime,
     })
       .then((result) => {
-        if (!user?.id) throw new Error();
-        updateDoc(doc(appFireStore, 'user', user.id), { application: arrayUnion(result.id) });
+        if (!user?.userDocId) throw new Error();
+        updateDoc(doc(appFireStore, 'user', user.userDocId), {
+          application: arrayUnion(result.id),
+        });
       })
       .catch((error) => {
         setError(error.message);

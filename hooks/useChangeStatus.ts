@@ -9,8 +9,6 @@ const useChangeStatus = () => {
   const changeStatus = async (type: string, id: string) => {
     setLoading(true);
 
-    console.log('update start');
-
     await updateDoc(doc(appFireStore, 'application', id), { status: type }).catch((error) =>
       setError(error.message)
     );
