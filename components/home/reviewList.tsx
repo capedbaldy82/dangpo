@@ -6,12 +6,12 @@ const ReviewList = () => {
     {
       name: '김장현',
       content: '호기심으로 신청했는데 집안이 후련해졌습니다.',
-      postId: 1,
+      postId: '',
     },
     {
       name: '강정규',
       content: '평소에 시간이 없어서 신청해봤는데 기존에 두고만 있던 물건들이 팔려서 좋았습니다.',
-      postId: 2,
+      postId: '',
     },
   ];
 
