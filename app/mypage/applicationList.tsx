@@ -2,13 +2,18 @@ import { useCollection } from '@/hooks/useCollection';
 import LoadingCheck from '@/components/common/LoadingCheck';
 import ApplicationCard from '@/app/mypage/applicationCard';
 import SubHeading from '@/app/mypage/subHeading';
+import { ApplicationDocType } from '@/types';
 
 type Props = {
   uid: string;
 };
 
 const ApplicationList = ({ uid }: Props) => {
-  const { documents, loading } = useCollection('application', ['uid', '==', uid]);
+  const { documents, loading } = useCollection<ApplicationDocType>('application', [
+    'uid',
+    '==',
+    uid,
+  ]);
 
   return (
     <div className="space-y-4">
@@ -30,8 +35,8 @@ const ApplicationList = ({ uid }: Props) => {
       </SubHeading>
       <ul className="space-y-4">
         <LoadingCheck loading={loading}>
-          {documents.map((application: any) => {
-            if (application.status === 'done' || application.status === 'review') return null;
+          {documents.map((application: ApplicationDocType) => {
+            if (application.status === 'done') return null;
 
             return (
               <ApplicationCard
@@ -63,16 +68,19 @@ const ApplicationList = ({ uid }: Props) => {
       </SubHeading>
       <ul className="space-y-4">
         <LoadingCheck loading={loading}>
-          {documents.map((application: any) => {
-            if (application.status !== 'done' || application.status !== 'review') return null;
+          {documents.map((application: ApplicationDocType) => {
+            if (application.status !== 'done') return null;
 
             return (
               <ApplicationCard
                 key={application.id}
+                applicationDocId={application.id}
                 image={application.image}
                 title={application.title}
                 content={application.content}
                 status={application.status}
+                reviewed={application.reviewed}
+                reviewDocId={application.reviewDocId}
               />
             );
           })}
