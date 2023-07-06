@@ -5,4 +5,25 @@ const signupRegExp = {
   phone: /([0-9]{11})/,
 };
 
-export { signupRegExp };
+const modalStyle = {
+  overlay: {
+    display: 'flex',
+    justifyContents: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0,0,0,0.5)',
+  },
+  content: {
+    margin: 'auto',
+    width: '100%',
+    maxWidth: '40rem',
+    height: '600px',
+    padding: '0',
+    overflow: 'hidden',
+  },
+};
+
+const postStyle = {
+  height: '600px',
+};
+
+export { signupRegExp, modalStyle, postStyle };

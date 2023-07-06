@@ -1,42 +1,13 @@
 'use client';
 
 import useSignup from '@/hooks/useSignup';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { FieldErrors, useForm } from 'react-hook-form';
-import { signupRegExp } from '@/constants/signup';
+import { modalStyle, postStyle, signupRegExp } from '@/constants';
 import Modal from 'react-modal';
 import DaumPostcode from 'react-daum-postcode';
 import Spinner from '@/components/common/Spinner';
-
-type SignupFormType = {
-  email: string;
-  name: string;
-  password: string;
-  phone: string;
-  address: string;
-  addressDetail: string;
-};
-
-const modalStyle = {
-  overlay: {
-    display: 'flex',
-    justifyContents: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgba(0,0,0,0.5)',
-  },
-  content: {
-    margin: 'auto',
-    width: '100%',
-    maxWidth: '40rem',
-    height: '600px',
-    padding: '0',
-    overflow: 'hidden',
-  },
-};
-
-const postStyle = {
-  height: '600px',
-};
+import { SignupFormType } from '@/types';
 
 const SignupForm = () => {
   const { register, handleSubmit, setValue } = useForm<SignupFormType>();
