@@ -57,8 +57,13 @@ const nextConfig = {
   async headers() {
     return [
       {
-        key: 'X-XSS-Protection',
-        value: '1; mode=block',
+        source: '/(.*)',
+        headers: [
+          {
+            key: 'X-XSS-Protection',
+            value: '1; mode=block',
+          },
+        ],
       },
     ];
   },
