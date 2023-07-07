@@ -5,6 +5,7 @@ import { onAuthStateChanged } from 'firebase/auth';
 import { collection, onSnapshot, query, where } from 'firebase/firestore';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import { getCookie } from 'cookies-next';
 
 type UserStateType = {
   userDocId: string | null;
@@ -37,6 +38,10 @@ const useUser = () => {
 
   // 로그인 상태 확인 및 AuthState 설정
   useEffect(() => {
+    if (!getCookie('accessToken')) {
+      router.push('/login');
+    }
+
     const unsubscribe = onAuthStateChanged(appAuth, (user) => {
       if (!user) {
         setLoading(false);
