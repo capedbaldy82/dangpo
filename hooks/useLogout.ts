@@ -10,12 +10,10 @@ const useLogout = () => {
   const router = useRouter();
 
   const logout = () => {
-    setError(null);
     setLoading(true);
 
     signOut(appAuth)
       .then(() => {
-        setError(null);
         setLoading(false);
         deleteCookie('accessToken');
         router.replace('/');
