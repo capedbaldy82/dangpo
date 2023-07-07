@@ -1,15 +1,12 @@
 import { appAuth } from '@/firebase/config';
-import { UserState } from '@/store';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import { useRecoilState } from 'recoil';
 import { setCookie } from 'cookies-next';
 
 const useLogin = () => {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [userState, setUserState] = useRecoilState(UserState);
   const router = useRouter();
 
   const login = (email: string, password: string) => {
@@ -29,12 +26,6 @@ const useLogin = () => {
         setCookie('accessToken', accessToken);
 
         if (user.displayName && user.email && user.uid) {
-          setUserState({
-            name: user.displayName,
-            email: user.email,
-            uid: user.uid,
-            isAuthReady: true,
-          });
         }
 
         setError(null);
