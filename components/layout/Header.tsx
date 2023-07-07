@@ -6,7 +6,7 @@ const Header = () => {
     <header className="flex justify-between items-center px-8 py-4 bg-black text-white">
       <MenuButton />
       <Link href="/" className="text-3xl" aria-label="home link">
-        Good Bye Box
+        Dangpo
       </Link>
       <Link href="/mypage" aria-label="mypage or login link">
         <svg
