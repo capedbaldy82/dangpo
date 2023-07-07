@@ -12,7 +12,7 @@ const MenuButton = () => {
 
   return (
     <div>
-      <button onClick={toggleMenu}>
+      <button onClick={toggleMenu} id="menuButton">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
