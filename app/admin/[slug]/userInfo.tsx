@@ -29,7 +29,7 @@ const UserInfo = ({ uid }: Props) => {
       </SubHeading>
       <LoadingCheck loading={loading}>
         {documents.map((user: any) => (
-          <div className="p-4 border border-black rounded-md space-y-4" key={user.id}>
+          <div className="p-4 border border-black rounded-md space-y-2" key={user.id}>
             <div className="flex">
               <p className="w-1/6 font-semibold">이름</p>
               <p>{user.name}</p>

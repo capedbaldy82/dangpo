@@ -28,7 +28,7 @@ const ApplicationCard = ({
 }: Props) => {
   return (
     <li className="p-4 border border-black rounded-md overflow-hidden">
-      <div className="w-full h-80 overflow-hidden relative object-cover mb-4">
+      <div className="w-full h-40 sm:h-80 overflow-hidden relative object-cover mb-4">
         <Image
           src={`https://imagedelivery.net/nJK6oMiGlswmnGc8M5OUDA/${image}/adminproduct`}
           alt="사진"

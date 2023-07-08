@@ -28,7 +28,7 @@ const ReviewSLug = ({ params: { slug } }: Props) => {
         {data ? (
           <div>
             <h3 className="text-2xl font-semibold mt-20">{data.title}</h3>
-            <div className="flex text-gray-500 mt-5 mb-5">
+            <div className="flex justify-end text-gray-500 mt-5 mb-5">
               <p className="mr-4">{data.createdTime && convertDate(data.createdTime)}</p>
               <p>{data.name && data.name.substr(0, 3) + '**'}</p>
             </div>
