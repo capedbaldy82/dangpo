@@ -27,7 +27,9 @@ const ApplyFormCard = ({ id, title, content, image, onChangeById, removeApplyFor
 
   return (
     <article className="relative border-2 border-black flex flex-col p-4 pt-6 rounded-md space-y-4">
-      <div onClick={() => removeApplyFormCard(id)} className="flex absolute top-2 right-3">
+      <div
+        onClick={() => removeApplyFormCard(id)}
+        className="flex absolute top-2 right-3 cursor-pointer">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
