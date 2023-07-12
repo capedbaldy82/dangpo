@@ -14,7 +14,7 @@ const ReviewList = () => {
         {documents.map((review: ReviewDocType, index: number) => (
           <ReviewLink
             key={review.id}
-            index={index}
+            index={documents.length - index}
             id={review.id}
             title={review.title}
             name={review.name}
