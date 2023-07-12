@@ -43,7 +43,7 @@ const useSignup = () => {
               phone,
               address,
               application: [],
-              applicationCout: 0,
+              applicationCount: 0,
             });
             setError(null);
             setIsPending(false);

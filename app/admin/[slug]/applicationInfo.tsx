@@ -20,10 +20,6 @@ const ItemStatus = {
 const ApplicationInfo = ({ uid }: Props) => {
   const { documents, loading } = useCollection('application', ['uid', '==', uid]);
 
-  useEffect(() => {
-    console.log(documents);
-  }, [documents]);
-
   return (
     <section>
       <SubHeading>
