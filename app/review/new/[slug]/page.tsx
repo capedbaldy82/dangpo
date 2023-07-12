@@ -62,13 +62,17 @@ const ReviewNewSlug = ({ params: { slug } }: Props) => {
       <Heading text="리뷰 작성" />
       <LoadingCheck loading={loading}>
         <div className="flex flex-col rounded-md space-y-4">
-          <div className="relative h-72 overflow-hidden border border-black rounded-lg">
-            <Image
+          <div
+            className="relative h-72 overflow-hidden border border-black rounded-lg  bg-no-repeat bg-center bg-contain"
+            style={{
+              backgroundImage: `url(https://imagedelivery.net/nJK6oMiGlswmnGc8M5OUDA/${data.image}/adminproduct)`,
+            }}>
+            {/* <Image
               src={`https://imagedelivery.net/nJK6oMiGlswmnGc8M5OUDA/${data.image}/adminproduct`}
               alt="사진"
               fill
               priority={true}
-            />
+            /> */}
           </div>
           <input
             type="text"

@@ -30,16 +30,20 @@ const ReviewSLug = ({ params: { slug } }: Props) => {
             <h3 className="text-2xl font-semibold mt-20">{data.title}</h3>
             <div className="flex justify-end text-gray-500 mt-5 mb-5">
               <p className="mr-4">{data.createdTime && convertDate(data.createdTime)}</p>
-              <p>{data.name && data.name.substr(0, 3) + '**'}</p>
+              <p>{data.name && data.name.substr(0, 2) + '*'}</p>
             </div>
             <div>
-              <div className="relative h-72 overflow-hidden border border-black rounded-lg">
-                <Image
+              <div
+                className="relative h-72 overflow-hidden border border-black rounded-lg bg-no-repeat bg-center bg-contain"
+                style={{
+                  backgroundImage: `url(https://imagedelivery.net/nJK6oMiGlswmnGc8M5OUDA/${data.image}/adminproduct)`,
+                }}>
+                {/* <Image
                   src={`https://imagedelivery.net/nJK6oMiGlswmnGc8M5OUDA/${data.image}/adminproduct`}
                   alt="사진"
                   fill
                   priority={true}
-                />
+                /> */}
               </div>
             </div>
             <div dangerouslySetInnerHTML={{ __html: data.content }} className="mt-5 text-lg" />
