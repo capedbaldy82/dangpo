@@ -5,14 +5,14 @@ import SubHeading from '@/app/mypage/subHeading';
 import { ApplicationDocType } from '@/types';
 
 type Props = {
-  uid: string;
+  userDocId: string;
 };
 
-const ApplicationList = ({ uid }: Props) => {
-  const { documents, loading } = useCollection<ApplicationDocType>('application', [
-    'uid',
+const ApplicationList = ({ userDocId }: Props) => {
+  const { documents, loading, error } = useCollection<ApplicationDocType>('application', [
+    'userDocId',
     '==',
-    uid,
+    userDocId,
   ]);
 
   return (

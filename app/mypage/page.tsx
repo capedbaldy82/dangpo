@@ -15,7 +15,7 @@ const Mypage = () => {
       <LoadingAndValidationCheck loading={loading} validation={user.isAuthReady}>
         <div className="space-y-20">
           <Profile name={user.name ?? ''} />
-          <ApplicationList uid={user.uid ?? ''} />
+          <ApplicationList userDocId={user.userDocId ?? ''} />
         </div>
       </LoadingAndValidationCheck>
     </main>
