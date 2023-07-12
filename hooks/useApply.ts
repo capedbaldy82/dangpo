@@ -22,6 +22,10 @@ const useApply = () => {
       return;
     }
 
+    if (!user.uid) {
+      setError('로그인 상태를 확인해주시기 바랍니다.');
+    }
+
     if (!user.applicationCount && user.applicationCount !== 0) {
       setError('로그인 상태를 확인해주시기 바랍니다.');
       return;
@@ -89,6 +93,7 @@ const useApply = () => {
       email,
       status: 'standby',
       createdTime,
+      uid: user.uid,
     })
       .then((result) => {
         if (!user?.userDocId) throw new Error();
